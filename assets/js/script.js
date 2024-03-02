@@ -39,19 +39,17 @@ function createTaskCard(task) {
    
     const body = $('<div>')
     body.addClass = $('card-body')
-    // TODO: Create a new paragraph element and add the class `card-text`. Also set the text of the paragraph to the project type.
+    
     const dueDate = $('<p>')
     dueDate.addClass('card-text')
     dueDate.text(task.dueDate)
   
-    // TODO: Create a new paragraph element and add the class `card-text`. Also set the text of the paragraph to the project due date.
+    
     const desc =$('<p>')
     desc.addClass('card-text')
     desc.text(task.desc)
 
-    // const del = $('<div>')
-    // deleteBtn.addClass()
-    // TODO: Create a new button element and add the classes `btn`, `btn-danger`, and `delete`. Also set the text of the button to "Delete" and add a `data-project-id` attribute and set it to the project id.
+    
   const cardDeleteBtn = $('<button>')
   cardDeleteBtn.addClass('btn btn-danger delete')
   cardDeleteBtn.text('Delete')
@@ -61,7 +59,7 @@ function createTaskCard(task) {
     const now = dayjs();
     const taskDueDate = dayjs(task.dueDate, 'DD/MM/YYYY');
 
-    // ? If the task is due today, make the card yellow. If it is overdue, make it red.
+    
     if (now.isSame(taskDueDate, 'day')) {
       taskCard.addClass('bg-warning text-white');
     } else if (now.isAfter(taskDueDate)) {
@@ -73,11 +71,11 @@ body.append(dueDate, desc, cardDeleteBtn)
 taskCard.append(title, body)
 return taskCard
 }
-// Todo: create a function to render the task list and make cards draggable
+
 function renderTaskList() {
   const tasks = readTasksFromStorage();
 
-  // ? Empty existing project cards out of the lanes
+ 
   const todoList = $("#todo-cards");
   todoList.empty();
 
@@ -87,7 +85,7 @@ function renderTaskList() {
   const doneList = $("#done-cards");
   doneList.empty();
 
-  //  Loop through projects and create project cards for each status
+  
   for (let task of tasks) {
     const taskCards = createTaskCard(task);
     if(task.status==="to-do"){
@@ -101,13 +99,13 @@ function renderTaskList() {
   $(".draggable").draggable({
     opacity: 0.7,
     zIndex: 100,
-    // ? This is the function that creates the clone of the card that is dragged. This is purely visual and does not affect the data.
+    
     helper: function (e) {
-      // ? Check if the target of the drag event is the card itself or a child element. If it is the card itself, clone it, otherwise find the parent card  that is draggable and clone that.
+      
       const original = $(e.target).hasClass("ui-draggable")
         ? $(e.target)
         : $(e.target).closest(".ui-draggable");
-      // ? Return the clone with the width set to the width of the original card. This is so the clone does not take up the entire width of the lane. This is to also fix a visual bug where the card shrinks as it's dragged to the right.
+      
       return original.clone().css({
         width: original.outerWidth(),
       });
@@ -120,13 +118,13 @@ function handleAddTask(event){
   // console.log ('Hello')
   event.preventDefault();
 
-  // Get the project name, type, and due date from the form
+
   const taskTitle = titleEl.val()
   const taskDueDate = dueDateEl.val()
   const taskDesc = descEl.val()
-  // ? Create a new project object with the data from the form
+  
   const newTasks = {
-    // ? Here we use a tool called `crypto` to generate a random id for our project. This is a unique identifier that we can use to find the project in the array. `crypto` is a built-in module that we can use in the browser and Nodejs.
+    
     id: crypto.randomUUID(),
     title: taskTitle,
     dueDate: taskDueDate,
@@ -135,17 +133,17 @@ function handleAddTask(event){
   };
 
   console.log(newTasks)
-  // ? Pull the projects from localStorage and push the new project to the array
+  
   const tasks = readTasksFromStorage();
   tasks.push(newTasks);
 
-  // ? Save the updated projects array to localStorage
+ 
   saveTasksToStorage(tasks);
 
-  // ? Print project data back to the screen
+  
   renderTaskList();
 
-  // Clear the form inputs
+  
   titleEl.val('');
   dueDateEl.val('');
   descEl.val('');
